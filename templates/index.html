@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Review Sentiment</title>
+    <script>
+        function sendReview() {
+            let reviewText = document.getElementById("review").value;
+            
+            fetch("/predict", {
+                method: "POST",
+                body: new URLSearchParams({review: reviewText}),
+                headers: {"Content-Type": "application/x-www-form-urlencoded"}
+            })
+            .then(response => response.json())
+            .then(data => {
+                document.getElementById("result").innerText = "Sentiment: " + data.sentiment;
+            });
+        }
+    </script>
+</head>
+<body>
+    <h2>Movie Review Sentiment Analysis</h2>
+    <textarea id="review" rows="4" cols="50" placeholder="Enter your movie review..."></textarea><br>
+    <button onclick="sendReview()">Analyze Sentiment</button>
+    <p id="result"></p>
+</body>
+</html>
